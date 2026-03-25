@@ -416,17 +416,6 @@ input[type="range"].slider::-moz-range-track {
       </div>
     </div>
     <div class="wv-aside" style="margin-top: 14px;">
-      <button class="wv-btn" id="replBtn">what actually makes someone hard to replace</button>
-      <div class="wv-body" id="replBody">
-        <p>Not depth of knowledge alone. Not years of experience. Not seniority. These are inputs. The question is whether the output is still yours when they are stripped away.</p>
-        <p><strong>Ownership with judgment.</strong> You are not hard to replace because you know things. You are hard to replace when the cost of extracting your judgment from the decision chain is genuinely high. This happens when your calls are load-bearing, hard to document, and embedded in live decisions that cannot easily pause.</p>
-        <p><strong>Context that has not been written down.</strong> Not institutional memory in the bureaucratic sense. The knowledge of which constraints are real, which workarounds are load-bearing, which systems will break in non-obvious ways under specific conditions. Valuable because it is not in the codebase and not in the docs.</p>
-        <p><strong>Trust that took time to build.</strong> In real orgs, decisions flow toward people others trust to not create problems downstream. This is not meritocratic. It is real. AI does not replace this yet.</p>
-        <p><strong>Actually doing the hard thing.</strong> A large fraction of replaceability comes from choosing the path of least resistance long enough that nobody remembers you doing the difficult version. The people who are hard to replace tend to have a history of doing things that were annoying to do.</p>
-        <p>What does not make someone hard to replace: years of experience without increasing responsibility. Domain vocabulary without domain ownership. Being in important rooms without making important decisions. A track record of executing well on someone else's spec with no skin in what gets specced.</p>
-      </div>
-    </div>
-    <div class="wv-aside" style="margin-top: 14px;">
       <button class="wv-btn" id="caseBtn">radiobananas.art &middot; a case study</button>
       <div class="wv-body" id="caseBody">
         <p>I built a radio with Claude Code and only later realized how elegant the math behind it was. <a href="https://radiobananas.art/" target="_blank" rel="noopener" style="color: var(--ink); text-underline-offset: 3px;">Radiobananas.art</a> is a music radio handpicked from my own taste. Everyone hears the same music at the same time without any backend sync or websocket. Just a static HTML page with files sitting on Cloudflare R2.</p>
@@ -500,13 +489,13 @@ input[type="range"].slider::-moz-range-track {
 
     <!-- Zone name labels (togglable) -->
     <div class="zone-row" id="zoneRow">
-      <span style="left: 7.3%">builder</span>
-      <span style="left: 17.7%">questioner</span>
-      <span style="left: 30.1%">operator</span>
-      <span style="left: 44.3%">bridge</span>
-      <span style="left: 58.5%">specialist</span>
-      <span style="left: 72.8%">node</span>
-      <span style="left: 88.9%">volume</span>
+      <span style="left: 7.3%">craftsman</span>
+      <span style="left: 17.7%">researcher</span>
+      <span style="left: 30.1%">founder</span>
+      <span style="left: 44.3%">hybrid</span>
+      <span style="left: 58.5%">executor</span>
+      <span style="left: 72.8%">senior</span>
+      <span style="left: 88.9%">cog</span>
     </div>
 
     <div class="axis-footer">
@@ -527,77 +516,78 @@ const zones = [
     range: [0, 10],
     tag: "Archetype",
     tagColor: "#4a7c6b",
-    title: "The Primitives Builder",
+    title: "The Craftsman",
     paragraphs: [
-      "You are Carmack fitting Doom into 1.2MB because nothing could be cut. You are Torvalds writing the first kernel commit because Minix was not enough. You are Dean designing Bigtable because the problem did not have a name yet. High depth, high ownership, first principles. The spec becomes legible only through the building. The work either performs or it does not.",
-      "You outperform everywhere irreducible complexity lives: systems that need to hold for a decade, tradeoffs with no obvious right answer, constraints nobody has named yet. You fail in environments that reward speed and consensus. You are slow by design. The judgment you carry is load-bearing and load-bearing judgment does not move fast.",
-      "AI writes patches. Many. What it cannot tell you is which constraint is the real one, which tradeoff holds under load. Whether that gap persists is genuinely open. But there is this: the seats here were always few. They may get fewer, or they may get stranger. Hardest to automate is not the same as safe."
+      "You are John Carmack fitting Doom into 1.2MB because nothing could be cut. You are Linus Torvalds writing the first kernel commit because Minix was not enough. You are Jeff Dean designing Bigtable because the problem did not have a name yet. The spec is what you are building toward and it only becomes legible through the building. The work either performs or it does not.",
+      "AI writes patches. Many of them. What it cannot tell you is which patch matters, which tradeoff holds under load, which constraint is the real one. AI has processed more failure data than any engineer will in a career. But there is a difference between encountering failure as a training signal and living through a production outage knowing it was your call. Whether that distinction holds for judgement is genuinely open.",
+      "Hardest to automate is not the same as safe. The seats here were always few. They may get fewer, or they may get stranger."
     ]
   },
   {
     range: [10, 22],
     tag: "Archetype",
     tagColor: "#5b8a78",
-    title: "The Question Former",
+    title: "The Research-Builder",
     paragraphs: [
-      "You are Karpathy building nanoGPT on a weekend because reading the paper was not enough. High depth, high curiosity, building to understand. The code is the microscope. You move between research and implementation and the boundary feels artificial. You outperform at the start of new domains, when the problem space is not yet defined, when someone needs to ask whether a thing is tractable before anyone else has asked.",
-      "You fail under execution pressure. You get slower as the environment gets more certain. Certainty bores you before it finishes paying out. This is not a personal failing. It is a trait profile. You are optimized for a different part of the curve.",
-      "AI is exceptional at pattern recognition in high-dimensional spaces. That is precisely what this work looks like from the outside. The counterargument: AlphaFold needed someone to first ask whether protein folding was a tractable computational problem. The question about what to ask next is still yours. What narrows is the window before AI also starts forming the questions."
+      "You are Andrej Karpathy building nanoGPT on a weekend because reading the paper was not enough. The code is the microscope. You have deep knowledge in mathematics, biology, or a field where the questions are harder than the data. The insight and the craft are mostly one.",
+      "AI is exceptional at pattern recognition in high-dimensional spaces. That is precisely what research is. Domain complexity does not protect the field. It gets transformed. Your moat is not the code.",
+      "Your moat is whether your curiosity outruns the training data. The counterargument: AlphaFold generated novel protein structure predictions beyond what any human had mapped. AI can propose hypotheses now. True. But AlphaFold needed someone to first ask whether protein folding was a tractable computational problem. The question about what question to ask next is still yours. For now."
     ]
   },
   {
     range: [22, 36],
     tag: "Archetype",
     tagColor: "#6d897e",
-    title: "The Operator",
+    title: "The Product-Minded Engineer",
     paragraphs: [
-      "You are DHH extracting Rails from Basecamp. You are Pieter Levels shipping Nomad List in a weekend because the spreadsheet stopped working. Speed, taste, ownership. The code is the thinking. No spec, no handoff, no layer between the decision and the thing. The indie version is the sharpest expression: one person, full stack of leverage, build, distribute, monetize, no permission needed.",
-      "You outperform when speed is the constraint and taste is the differentiator. A team of one with good tools beats a team of ten with process and you have always known this. You fail at scale. You grow, you hire a PM, then a TPM, then someone to own the roadmap. Each hire moves you one step right. The fusion cracks under headcount. Most people here do not notice until they are already someone else.",
-      "Here is the counterintuitive one. The operator is probably the most AI-native archetype on this spectrum. Not the deep primitives builder. You. Your loop is build, ship, observe, iterate. AI compresses every step of that loop. The assumption that AI most threatens the least technical roles got this backwards. Taste plus speed plus ownership with better tools is a different magnitude of leverage entirely."
+      "You are DHH extracting Rails from Basecamp, discovering what a framework should be by building the thing that needed one. You are Pieter Levels shipping Nomad List in a weekend because the spreadsheet stopped working. The code is the thinking. No spec, no handoff, no layer between the decision and the thing.",
+      "The indie operator is the sharpest version of this archetype. One person, full stack of leverage: build, distribute, monetize, no team. The moat is not depth of craft alone. Taste plus speed plus not needing permission. A team of one with good tools beats a team of ten with process. AI makes this more true, not less. The indie operator is probably the most AI-native role on this spectrum.",
+      "This lasts as long as you stay small. You grow, you hire a PM, then a TPM, then someone to own the roadmap. Each hire moves you one step right. The fusion cracks under headcount. Most people at this position don't notice until they're already someone else.",
+      "Someone with no formal training and a good model can now do most of this. What they can't do yet is feel when something they're building will fall apart under load six months out. That sense comes from having built things that fell apart. The gap is real. Nobody knows how long it holds."
     ]
   },
   {
     range: [36, 52],
     tag: "Archetype",
     tagColor: "#887570",
-    title: "The Bridge",
+    title: "The Hybrid",
     paragraphs: [
-      "You are the staff engineer who saw the product problem three quarters before the PM wrote the roadmap item. You felt it in the code. You are not a pure executor and not a pure owner. You live between worlds and you are good at translating across them. Your value is that you can hold both sides of a conversation without simplifying either.",
-      "You outperform at cross-functional diagnosis, early identification of problems the product org misses because they are not in the systems, and decisions that require both technical and organizational context simultaneously. You fail when you wait for that to be recognized and rewarded without making a move. The org does not hand you the transition. It does not know you want it.",
-      "You are being competed against from both sides at once. A high-agency person with a good model can ship the software. An experienced PM does alignment better. What remains is the translation layer, and it only pays if you own the decision on one side of it. That is a choice, not something your title confers."
+      "You are the staff engineer who saw the product problem three quarters before the PM wrote the roadmap item. You felt it in the code. You have always been closer to the insight than your title suggests. You have just not made it the center of the work yet.",
+      "But taste only becomes a moat if you make it the center of the work. Your PM does alignment better. Your TPM runs coordination better. A high-agency person with a good model can ship the software. They are all competing for this seat now.",
+      "The engineering judgment you built from real systems is real. The question is whether you surface it as product vision or keep waiting for it to be noticed through sprint ceremonies. Nobody is going to hand you that transition. The org does not know you want it."
     ]
   },
   {
     range: [52, 66],
     tag: "Archetype",
     tagColor: "#9b7262",
-    title: "The Specialist",
+    title: "The Domain Executor",
     paragraphs: [
-      "You are the developer at a hedge fund implementing the strategy the quant researcher designed. Or the bioinformatics engineer building the pipeline the lab will run. High depth in a narrow domain. The code is non-trivial. The domain vocabulary is real. The alpha, the hypothesis, the vision: those belong to someone else.",
-      "Here is the counterintuitive one. Domain expertise in finance or biology delays the countdown but it is not the moat. You outperform at implementation that requires genuine domain fluency. You fail because ownership of the question is external. Implementation reveals things the researcher did not anticipate. You find the edge cases, the failure modes, the data quirks. That is real work. But those findings feed back into someone else's vision. Adjacency to insight is not insight.",
-      "AI does not just threaten your implementation. It threatens the research layer above you simultaneously. The gap you thought protected you is closing from both directions at once. The depth that felt like protection was real. The ownership was not there."
+      "You are the developer at a hedge fund implementing the strategy the quant researcher designed. Or the bioinformatics engineer building the pipeline the lab will run. The code is non-trivial. The domain vocabulary is real. The alpha, the hypothesis, the vision: those belong to someone else.",
+      "Domain knowledge in finance, biology, climate delays the countdown. The counterargument: implementation reveals things the researcher did not anticipate. You find the edge cases, the failure modes, the data quirks. That is real. But those findings feed back into someone else's vision. You are still a service provider, just a better-informed one. Adjacency to insight is not insight.",
+      "AI does not just threaten your implementation. It threatens the research layer above you simultaneously. The gap you thought protected you is closing from both sides at once."
     ]
   },
   {
     range: [66, 82],
     tag: "Archetype",
     tagColor: "#a27060",
-    title: "The Institutional Node",
+    title: "The Senior Bureaucrat",
     paragraphs: [
-      "You are the Distinguished Engineer or VP who has not written production code in four years. You are in the room when the real decisions get made. You know which systems are held together with tape, which decisions were political, which reorg broke what. That knowledge is real. It took years. It gets you into rooms that matter.",
-      "You outperform at anything requiring organizational context and trust capital that cannot be quickly replicated. You know the history behind the decisions and who actually has power versus who thinks they do. You fail when the institution changes faster than the knowledge compounds. The problem with being the institutional memory is that the institution is changing.",
-      "AI did not start this. The org started this long before. What AI does is make the gap between your title and your actual output legible to people who could not see it before. That is the specific threat here. Not replacement. Visibility."
+      "You are the Distinguished Engineer or VP of Engineering who has not written production code in four years, maybe five. You are in the room when the real decisions get made. You know which systems are held together with tape, which decisions were political, which reorg broke what. That knowledge took years to build. It gets you into rooms. It is not a craft.",
+      "The day is design reviews, architecture proposals that never get implemented, mentoring juniors who are not being hired anymore. You are the institutional memory. The problem with being the institutional memory is that the institution is changing faster than the memory compounds.",
+      "AI did not start this. The org started this long before. AI just makes it legible."
     ]
   },
   {
     range: [82, 100],
     tag: "Archetype",
     tagColor: "#a86950",
-    title: "The Volume Worker",
+    title: "The Cog",
     paragraphs: [
-      "You are one of several hundred engineers at a company past the point where individual contribution is traceable. The ticket comes in. You estimate it, implement it, close it. Someone else wrote the ticket. The rules are complex but they are still rules. That is exactly what AI does well.",
-      "The org needed volume to move at scale. The craft was already gone by the time you got here. Nobody took it from you. It was not on offer. You did not drift here by being less capable. Org scale does this regardless of who is inside it.",
-      "The volume is being automated. What is worth knowing: the distance to the other end of this spectrum is shorter than the job market makes it feel. The barrier is not skill. It is the structure of the environments most people work in, and the habits those environments select for."
+      "You are one of several hundred engineers at a company that passed the point where individual contribution is traceable. The ticket comes in. You estimate it, implement it, close it. Someone else wrote the ticket. This is intelligence work: the rules are complex but they are still rules. That is exactly what AI does well.",
+      "The org needed volume to move at scale. The craft was already gone by the time you got here. Nobody took it from you. It was not on offer.",
+      "Org scale does this to craft. Every org past a certain size. Now the volume is being automated. The distance to the other end of this spectrum is shorter than the job market makes it feel."
     ]
   }
 ];
@@ -746,14 +736,6 @@ const wvBody = document.getElementById('wvBody');
 wvBtn.addEventListener('click', () => {
   const open = wvBody.classList.toggle('open');
   wvBtn.classList.toggle('active', open);
-});
-
-/* ── replaceability toggle ── */
-const replBtn  = document.getElementById('replBtn');
-const replBody = document.getElementById('replBody');
-replBtn.addEventListener('click', () => {
-  const open = replBody.classList.toggle('open');
-  replBtn.classList.toggle('active', open);
 });
 
 /* ── case study toggle ── */
