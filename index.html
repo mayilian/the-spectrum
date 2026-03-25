@@ -673,6 +673,15 @@ slider.addEventListener('input', e => {
 
   clearTimeout(settleTimer);
   updateVisuals(v);
+
+  if (!seenIntro) {
+    const dynEl = document.querySelector('.dynamic-area');
+    window.scrollTo({ top: dynEl.offsetTop - 20, behavior: 'smooth' });
+    setTimeout(() => { seenIntro = true; }, 650);
+    settleTimer = setTimeout(settleEffect, 380);
+    return;
+  }
+
   if (zone !== currentZone) transitionTo(zone, true);
 
   settleTimer = setTimeout(settleEffect, 380);
@@ -699,16 +708,8 @@ wvBtn.addEventListener('click', () => {
   wvBtn.classList.toggle('active', open);
 });
 
-/* ── mobile: reveal dynamic area after load animations settle ── */
-function scrollToDynamic(behavior) {
-  const dynEl = document.querySelector('.dynamic-area');
-  const top   = dynEl.offsetTop - 20;
-  window.scrollTo({ top, behavior: behavior || 'smooth' });
-}
-
-if (window.innerWidth <= 560) {
-  setTimeout(() => scrollToDynamic('smooth'), 1800);
-}
+/* ── mobile: first interaction scrolls to intro, transitions unlock after scroll settles ── */
+let seenIntro = window.innerWidth > 560;
 
 /* ── scroll hint ── */
 function checkScrollHint() {
