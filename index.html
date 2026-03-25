@@ -330,7 +330,7 @@ input[type="range"].slider::-moz-range-track {
   opacity: 0;
 }
 .wv-body.open {
-  max-height: 900px;
+  max-height: 1600px;
   opacity: 1;
 }
 .wv-body p {
@@ -367,11 +367,15 @@ input[type="range"].slider::-moz-range-track {
 
 /* RESPONSIVE */
 @media (max-width: 560px) {
-  .page            { padding: 7vh 20px 200px; }
-  .manifesto-title { font-size: 24px; }
-  .pos-title       { font-size: 24px; }
+  .page            { padding: 5vh 20px 220px; }
+  .manifesto-title { font-size: 22px; }
+  .pos-title       { font-size: 22px; }
   .pos-body        { font-size: 15px; }
-  .axis-inner      { padding-left: 20px; padding-right: 20px; }
+  .verdict-text    { font-size: 14px; }
+  .wv-body p       { font-size: 14px; }
+  .axis-inner      { padding: 14px 20px 22px; }
+  .zone-row        { display: none; }
+  .end-label       { font-size: 11px; }
 }
 
 </style>
@@ -694,6 +698,19 @@ wvBtn.addEventListener('click', () => {
   const open = wvBody.classList.toggle('open');
   wvBtn.classList.toggle('active', open);
 });
+
+/* ── mobile: scroll to show dynamic area above slider ── */
+function ensureDynamicVisible() {
+  const dynEl  = document.querySelector('.dynamic-area');
+  const axisH  = document.querySelector('.axis-section').offsetHeight;
+  const rect   = dynEl.getBoundingClientRect();
+  const viewH  = window.innerHeight - axisH;
+  if (rect.top < 0 || rect.bottom > viewH) {
+    window.scrollTo({ top: dynEl.offsetTop - 16, behavior: 'smooth' });
+  }
+}
+
+slider.addEventListener('touchstart', ensureDynamicVisible, { passive: true });
 
 /* ── scroll hint ── */
 function checkScrollHint() {
