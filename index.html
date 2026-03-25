@@ -400,7 +400,7 @@ input[type="range"].slider::-moz-range-track {
       <div class="verdict-text">
         <p>You work as an engineer in an org and think the code is 20% of the job, so AI automating that part leaves you safe. But that line of reasoning has one consequence: <strong>it means you were already a bureaucrat.</strong> The industrialization hollowed out the craft long before the models arrived. And this is exactly why you are not safe.</p>
         <p><strong>The code and understanding the code was your real moat</strong> <button onclick="const b=document.getElementById('caseBody');const btn=document.getElementById('caseBtn');if(!b.classList.contains('open')){b.classList.add('open');btn.classList.add('active');}document.getElementById('caseBtn').scrollIntoView({behavior:'smooth',block:'start'});" style="background:none;border:none;cursor:pointer;font-family:var(--sans);font-size:11px;letter-spacing:0.12em;color:var(--ink-faint);padding:0;text-transform:uppercase;vertical-align:middle;">( case study ↓ )</button>. You had the craft and talked yourself out of it. You started running processes and ceremonies, writing docs about systems you no longer built, telling yourself you were above the code. And honestly, you were not sad about it. The code was always the part you wanted to escape.</p>
-        <p>Everyone is quietly hoping AI plateaus right before it reaches their specific skill level. Find yourself on the spectrum below and use it as a reflection tool. This is not a manifesto or a verdict. We are on the brink of a paradigm shift and nobody knows what comes next. The more honest question is not whether your role survives. It is what you want to be doing when the music stops.</p>
+        <p>Everyone is quietly hoping AI plateaus right before it reaches their specific skill level. Find yourself on the spectrum below and use it as a mirror. We are on the brink of a paradigm shift and nobody knows what comes next. The more honest question is what you want to be doing when the music stops.</p>
       </div>
     </div>
     <div class="wv-aside">
@@ -422,7 +422,7 @@ input[type="range"].slider::-moz-range-track {
         <p>So how do my phone in Amsterdam and your laptop in Yerevan end up on the exact same second of the same song. It is just: <code>(UTC seconds since midnight) % total playlist duration</code>. Everyone runs the same calculation and gets the same answer.</p>
         <p>The shuffle is what makes it tricky. If it is random, two people loading the site at different moments get different orders and the whole thing breaks. So it has to be a deterministic shuffle, same input, same output, everywhere. I use the date as the seed so everyone gets the same shuffle for the day.</p>
         <p>The shuffle itself is the <a href="https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle" target="_blank" rel="noopener" style="color: var(--ink); text-underline-offset: 3px;">Fisher-Yates shuffle</a>, which guarantees every track plays exactly once before the cycle repeats. There is also a tiny three-line PRNG in the code, a variant of xorshift from the 1990s. Without it, Math.random breaks the sync.</p>
-        <p>Here is the part that matters for this page. If you look at what is actually in that codebase: deterministic shuffles, a PRNG variant, modular arithmetic for sync. None of these are trivial. A year ago I would have been the gatekeeper for this. You needed to understand xorshift to produce xorshift. Now I curated it, understood it after the fact, and shipped. <strong>A good designer with a flexible brain and a good model could build a better version of this than I did.</strong> That is not a complaint. That is the elephant in the room this entire page is about.</p>
+        <p>Here is the part that matters for this page. If you look at what is actually in that codebase: deterministic shuffles, a PRNG variant, modular arithmetic for sync. None of these are trivial. A year ago I would have been the gatekeeper for this. You needed to understand xorshift to produce xorshift. Now I curated it, understood it after the fact, and shipped. <strong>A good designer with a flexible brain and a good model could build a better version of this than I did.</strong> Not a complaint. The elephant in the room this entire page is about.</p>
       </div>
     </div>
   </div>
@@ -516,7 +516,7 @@ const zones = [
     title: "The Craftsman",
     paragraphs: [
       "You are John Carmack fitting Doom into 1.2MB because nothing could be cut. You are Linus Torvalds writing the first kernel commit because Minix was not enough. You are Jeff Dean designing Bigtable because the problem did not have a name yet. The spec is what you are building toward and it only becomes legible through the building. The work either performs or it does not.",
-      "The question is not whether AI writes the patch. It writes many patches. The question is which patch matters, which tradeoff holds under load, which constraint is the real one. AI has processed more failure data than any engineer will in a career. The counterargument is real. But there is a difference between encountering failure as a training signal and living through a production outage knowing it was your call. Whether that distinction holds for judgement is genuinely open.",
+      "AI writes patches. Many of them. What it cannot tell you is which patch matters, which tradeoff holds under load, which constraint is the real one. AI has processed more failure data than any engineer will in a career. But there is a difference between encountering failure as a training signal and living through a production outage knowing it was your call. Whether that distinction holds for judgement is genuinely open.",
       "Last does not mean safe. It means the longest timer. The seats were always few. They may get fewer, or they may get stranger."
     ]
   },
@@ -550,7 +550,7 @@ const zones = [
     paragraphs: [
       "You are the staff engineer who saw the product problem three quarters before the PM wrote the roadmap item. You felt it in the code. You have always been closer to the insight than your title suggests. You have just not made it the center of the work yet.",
       "But taste only becomes a moat if you make it the center of the work. Your PM does alignment better. Your TPM runs coordination better. A high-agency person with a good model can ship the software. They are all competing for this seat now.",
-      "The engineering judgment you built from real systems is not nothing. The question is whether you surface it as product vision or keep waiting for it to be noticed through sprint ceremonies. Nobody is going to hand you that transition. The org does not know you want it."
+      "The engineering judgment you built from real systems is real. The question is whether you surface it as product vision or keep waiting for it to be noticed through sprint ceremonies. Nobody is going to hand you that transition. The org does not know you want it."
     ]
   },
   {
@@ -583,7 +583,7 @@ const zones = [
     paragraphs: [
       "You are one of several hundred engineers at a company that passed the point where individual contribution is traceable. The ticket comes in. You estimate it, implement it, close it. Someone else wrote the ticket. This is intelligence work: the rules are complex but they are still rules. That is exactly what AI does well.",
       "The org needed volume to move at scale. The craft was already gone by the time you got here. Nobody took it from you. It was not on offer.",
-      "This is not a judgment. It is what org scale does to craft. Now the volume is being automated. The distance to the other end of this spectrum is shorter than the job market makes it feel."
+      "Org scale does this to craft. Every org past a certain size. Now the volume is being automated. The distance to the other end of this spectrum is shorter than the job market makes it feel."
     ]
   }
 ];
