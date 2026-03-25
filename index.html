@@ -672,6 +672,11 @@ function settleEffect() {
     posTag.style.transition = 'color 0.14s ease, transform 0.3s ease';
     posTag.style.transform  = 'translateY(0)';
   }, 400);
+  if (window.innerWidth <= 560) {
+    const dynEl = document.querySelector('.dynamic-area');
+    if (dynEl.getBoundingClientRect().top < 0)
+      window.scrollTo({ top: dynEl.offsetTop - 20, behavior: 'smooth' });
+  }
 }
 
 function updateVisuals(v) {
