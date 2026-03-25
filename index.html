@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Spectrum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400&display=swap" rel="stylesheet">
+<style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #f0ebe0;
+  --ink:       #1a1714;
+  --ink-mid:   #6b5f57;
+  --ink-faint: #bdb1a7;
+  --green:     #4a7c6b;
+  --terra:     #a86950;
+  --thumb:     #7a7069;
+  --serif:     'Cormorant Garamond', Georgia, serif;
+  --sans:      'DM Sans', system-ui, sans-serif;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 9vh 36px 210px;
+}
+
+/* HEADER */
+.header {
+  margin-bottom: 40px;
+  animation: riseIn 0.9s ease 0.05s both;
+}
+
+.manifesto-title {
+  font-family: var(--serif);
+  font-size: clamp(26px, 4.6vw, 52px);
+  font-weight: 300;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  margin-bottom: 30px;
+}
+
+.manifesto-title em { font-style: italic; color: var(--ink-mid); }
+
+.verdict-block {
+  border-left: 1px solid var(--ink-faint);
+  padding: 4px 0 4px 20px;
+  animation: riseIn 0.8s ease 0.35s both;
+}
+
+.verdict-label {
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 9px;
+}
+
+.verdict-text {
+  font-size: 15px;
+  line-height: 1.82;
+  color: var(--ink-mid);
+  font-weight: 300;
+  max-width: 520px;
+}
+
+.verdict-text p { margin-bottom: 16px; }
+.verdict-text p:last-child { margin-bottom: 0; }
+.verdict-text strong { color: var(--ink); font-weight: 400; }
+
+/* RULE */
+.rule {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 42px 0 40px;
+  animation: riseIn 0.6s ease 0.7s both;
+}
+.rule-line { flex: 1; height: 1px; background: var(--ink-faint); opacity: 0.5; }
+.rule-dot  { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-faint); }
+
+/* DYNAMIC TEXT */
+.dynamic-area {
+  position: relative;
+  animation: riseIn 0.7s ease 0.9s both;
+  margin-bottom: 20px;
+}
+
+.text-block { will-change: opacity, transform; }
+
+.pos-tag {
+  font-size: 9.5px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 17px;
+  transition: color 0.14s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pos-title {
+  font-family: var(--serif);
+  font-size: clamp(27px, 4.2vw, 46px);
+  font-weight: 300;
+  line-height: 1.13;
+  letter-spacing: -0.01em;
+  margin-bottom: 22px;
+}
+
+.pos-body {
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--ink-mid);
+  font-weight: 300;
+  max-width: 540px;
+}
+.pos-body p { margin-bottom: 18px; }
+.pos-body p:last-child { margin-bottom: 0; }
+.pos-body strong { color: var(--ink); font-weight: 400; }
+
+/* FIXED AXIS */
+.axis-section {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  animation: riseIn 0.7s ease 1.15s both;
+}
+
+.axis-section::before {
+  content: '';
+  position: absolute;
+  top: -36px;
+  left: 0;
+  right: 0;
+  height: 36px;
+  background: linear-gradient(to bottom, rgba(240,235,224,0), rgba(240,235,224,1));
+  pointer-events: none;
+}
+
+.axis-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 36px 28px;
+  background: var(--bg);
+}
+
+.end-labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 14px;
+}
+
+.end-label {
+  font-family: var(--serif);
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  transition: opacity 0.45s ease;
+}
+.end-label.left  { color: var(--green); text-align: left; }
+.end-label.right { color: var(--terra); text-align: right; }
+
+.track-wrap {
+  position: relative;
+  height: 44px;
+}
+
+.axis-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 44px;
+  pointer-events: none;
+  overflow: visible;
+}
+
+input[type="range"].slider {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 44px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: grab;
+  z-index: 2;
+}
+input[type="range"].slider:active { cursor: grabbing; }
+input[type="range"].slider:focus  { outline: none; }
+
+input[type="range"].slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--thumb);
+  border: 2.5px solid var(--bg);
+  box-shadow: 0 0 0 1.5px var(--thumb);
+  cursor: inherit;
+  transition: transform 0.14s ease;
+  margin-top: -9px;
+}
+input[type="range"].slider:active::-webkit-slider-thumb { transform: scale(1.2); }
+input[type="range"].slider::-webkit-slider-runnable-track {
+  height: 2px; background: transparent;
+}
+input[type="range"].slider::-moz-range-thumb {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--thumb);
+  border: 2.5px solid var(--bg);
+  box-shadow: 0 0 0 1.5px var(--thumb);
+  cursor: inherit;
+}
+input[type="range"].slider::-moz-range-track {
+  height: 2px; background: transparent;
+}
+
+/* Zone labels row */
+.zone-row {
+  position: relative;
+  height: 18px;
+  margin-top: 6px;
+  transition: opacity 0.5s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+.zone-row span {
+  position: absolute;
+  transform: translateX(-50%);
+  font-size: 9px;
+  font-style: italic;
+  color: var(--ink-faint);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  font-family: var(--sans);
+}
+
+/* Axis footer */
+.axis-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2px;
+}
+
+.drag-hint {
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+  transition: opacity 0.7s ease, color 0.4s ease;
+}
+.drag-hint.idle {
+  animation: nudge 2.2s ease 2s both;
+}
+@keyframes nudge {
+  0%   { opacity: 1; }
+  40%  { opacity: 0.35; }
+  100% { opacity: 1; }
+}
+
+.zones-btn {
+  font-family: var(--sans);
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color 0.25s ease;
+}
+.zones-btn:hover         { color: var(--ink-mid); }
+.zones-btn.active        { color: var(--ink-mid); }
+
+/* WORDCEL/SHAPE ROTATOR ASIDE */
+.wv-aside {
+  margin-top: 22px;
+  border-left: 1px solid var(--ink-faint);
+  padding-left: 20px;
+}
+.wv-btn {
+  font-family: var(--sans);
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 0;
+  transition: color 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.wv-btn::before {
+  content: '+';
+  font-size: 14px;
+  font-style: normal;
+  letter-spacing: 0;
+  line-height: 1;
+  color: var(--ink-faint);
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+.wv-btn.active::before { content: '−'; color: var(--ink-mid); }
+.wv-btn:hover  { color: var(--ink); }
+.wv-btn.active { color: var(--ink-mid); }
+.wv-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.45s ease, opacity 0.35s ease;
+  opacity: 0;
+}
+.wv-body.open {
+  max-height: 900px;
+  opacity: 1;
+}
+.wv-body p {
+  font-size: 15px;
+  line-height: 1.82;
+  color: var(--ink-mid);
+  font-weight: 300;
+  max-width: 520px;
+  margin-top: 13px;
+}
+.wv-body p:first-child { margin-top: 14px; }
+.wv-body strong { color: var(--ink); font-weight: 400; }
+
+/* SCROLL HINT */
+.scroll-hint {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  text-align: center;
+  padding: 18px 0 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+.scroll-hint.visible { opacity: 1; }
+.scroll-hint.gone    { opacity: 0; }
+
+/* ANIMATIONS */
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 560px) {
+  .page            { padding: 7vh 20px 200px; }
+  .manifesto-title { font-size: 24px; }
+  .pos-title       { font-size: 24px; }
+  .pos-body        { font-size: 15px; }
+  .axis-inner      { padding-left: 20px; padding-right: 20px; }
+}
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <h1 class="manifesto-title">
+      The code is 20% of the job.
+    </h1>
+    <div class="verdict-block">
+      <div class="verdict-text">
+        <p>You work as an engineer in an org and think the code is 20% of the job, so AI automating that part leaves you safe. But that line of reasoning has one consequence: <strong>it means you were already a bureaucrat.</strong> Not pejoratively. Bureaucracy has its place. But the industrialization hollowed out the craft long before the models arrived. Which means there is less protecting you than you think.</p>
+        <p><strong>The code and understanding the code was your real moat.</strong> You had the craft and talked yourself out of it. You started running processes and ceremonies, writing docs about systems you no longer built, telling yourself you were above the code. And honestly, you were not sad about it. The code was always the part you wanted to escape.</p>
+        <p>Everyone is quietly hoping AI plateaus right before it reaches their specific skill level. Find yourself on the spectrum below and use it as a reflection tool. This is not a manifesto. We are on the brink of a paradigm shift and nobody knows what comes next. The more honest question is not whether your role survives. It is what you want to be doing when the music stops.</p>
+      </div>
+    </div>
+    <div class="wv-aside">
+      <button class="wv-btn" id="wvBtn">wordcels &amp; shape rotators</button>
+      <div class="wv-body" id="wvBody">
+        <p>The terms come from an internet meme circa 2021, loosely rooted in cognitive research: verbal reasoning versus spatial rotation as distinct cognitive modes. Slightly edgy framing, but the underlying distinction is real and useful here.</p>
+        <p><strong>Shape rotators</strong> think in systems, code, spatial structures. <strong>Wordcels</strong> think in narrative, language, persuasion. The original thesis: tech was run by wordcels at the top and shape rotators doing the actual work below.</p>
+        <p>AI flipped it. <strong>AI is the ultimate shape rotator.</strong> It manipulates code and data structures faster than any human. Pure shape rotation is getting commoditized. The wordcel input layer is now more valuable because articulating what to build clearly is what you feed the machine.</p>
+        <p>The real winner is neither. <strong>It is the person who is both.</strong> Who sees the shapes and tells the story. That is what the left end of the slider below actually looks like in a person: not someone who codes and also has taste, but someone for whom the thinking and the making are the same motion. The insight does not precede the work. It lives inside it. You cannot hand that to a model because there is no spec to hand over. The spec is what emerges from the building.</p>
+        <p>The open question: who crosses more successfully? My take: <strong>a great designer has an easier path to building than a great engineer has to designing.</strong> The counterargument writes itself: great engineers at the Craftsman end have gestalt too, the feel for when a system is wrong before they can say why. True. But engineering gestalt is about the medium. Design gestalt is about people: taste, intuition, the sense of what feels right before you can explain why. That is <strong>gestalt</strong>. When AI handles more of the medium, people gestalt travels further. The engineer's intuition does not disappear. It just operates on a layer that is becoming more automated.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-line"></div>
+    <div class="rule-dot"></div>
+    <div class="rule-line"></div>
+  </div>
+
+  <div class="dynamic-area">
+    <div class="text-block" id="textBlock">
+      <div class="pos-tag" id="posTag" style="color: var(--ink-faint);">the spectrum</div>
+      <div class="pos-title" id="posTitle"><em>Where do you stand?</em></div>
+      <div class="pos-body" id="posBody">
+        <p>Seven archetypes on a spectrum. On one end, insight and craft are <strong>fused</strong>: you discover the answer by building it. On the other, they are <strong>separated</strong> by layers of process: someone else holds the vision and you implement it.</p>
+        <p><strong>Intelligence</strong> is executing complex rules. <strong>Judgement</strong> is knowing which rules apply, when to break them, and what to build next. AI has crossed the threshold where it can do most intelligence work autonomously. Where thinking and building are one, the work is mostly judgement. Where they are separated by layers of process, it is mostly intelligence. That is why it matters where you land.</p>
+        <p>Drag to find where you are.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint" id="scrollHint">scroll to read ↓</div>
+
+  <div class="axis-section">
+  <div class="axis-inner">
+    <div class="end-labels">
+      <div class="end-label left"  id="lblLeft">insight &amp; craft<br>fused</div>
+      <div class="end-label right" id="lblRight">insight &amp; craft<br>separated</div>
+    </div>
+
+    <div class="track-wrap">
+      <svg class="axis-svg" viewBox="0 0 700 44" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="wobble" x="-4%" y="-80%" width="108%" height="260%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.025 0.07" numOctaves="2" seed="11" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <linearGradient id="axisGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#4a7c6b" stop-opacity="0.9"/>
+            <stop offset="38%"  stop-color="#bdb1a7" stop-opacity="0.55"/>
+            <stop offset="62%"  stop-color="#bdb1a7" stop-opacity="0.55"/>
+            <stop offset="100%" stop-color="#a86950" stop-opacity="0.9"/>
+          </linearGradient>
+        </defs>
+        <line x1="18" y1="22" x2="682" y2="22"
+              stroke="url(#axisGrad)" stroke-width="2"
+              filter="url(#wobble)"/>
+        <circle cx="18"  cy="22" r="4.5" fill="#4a7c6b" opacity="0.85"/>
+        <circle cx="682" cy="22" r="4.5" fill="#a86950" opacity="0.85"/>
+        <!-- Zone boundary ticks: 10, 22, 36, 52, 66, 82 percent -->
+        <line x1="84"  y1="15" x2="84"  y2="29" stroke="#bdb1a7" stroke-width="1"   opacity="0.5"/>
+        <line x1="164" y1="15" x2="164" y2="29" stroke="#bdb1a7" stroke-width="1"   opacity="0.5"/>
+        <line x1="257" y1="15" x2="257" y2="29" stroke="#bdb1a7" stroke-width="1"   opacity="0.5"/>
+        <line x1="363" y1="13" x2="363" y2="31" stroke="#bdb1a7" stroke-width="1.5" opacity="0.55"/>
+        <line x1="456" y1="15" x2="456" y2="29" stroke="#bdb1a7" stroke-width="1"   opacity="0.5"/>
+        <line x1="562" y1="15" x2="562" y2="29" stroke="#bdb1a7" stroke-width="1"   opacity="0.5"/>
+      </svg>
+
+      <input type="range" class="slider" id="axisSlider"
+             min="0" max="100" value="50" step="1"
+             aria-label="Spectrum: fused to separated">
+    </div>
+
+    <!-- Zone name labels (togglable) -->
+    <div class="zone-row" id="zoneRow">
+      <span style="left: 7.3%">craftsman</span>
+      <span style="left: 17.7%">researcher</span>
+      <span style="left: 30.1%">founder</span>
+      <span style="left: 44.3%">hybrid</span>
+      <span style="left: 58.5%">executor</span>
+      <span style="left: 72.8%">senior</span>
+      <span style="left: 88.9%">cog</span>
+    </div>
+
+    <div class="axis-footer">
+      <span class="drag-hint" id="dragHint">drag the spectrum</span>
+      <button class="zones-btn" id="zonesBtn">archetypes</button>
+    </div>
+  </div>
+  </div>
+
+</div>
+
+<script>
+const zones = [
+  {
+    range: [0, 10],
+    tag: "Archetype",
+    tagColor: "#4a7c6b",
+    title: "The Craftsman",
+    paragraphs: [
+      "You are John Carmack fitting Doom into 1.2MB because nothing could be cut. You are Linus Torvalds writing the first kernel commit because Minix was not enough. You are Jeff Dean designing Bigtable because the problem did not have a name yet. The spec is what you are building toward and it only becomes legible through the building. The work either performs or it does not.",
+      "The question is not whether AI writes the patch. It writes many patches. The question is which patch matters, which tradeoff holds under load, which constraint is the real one. AI has processed more failure data than any engineer will in a career. The counterargument is real. But there is a difference between encountering failure as a training signal and living through a production outage knowing it was your call. Whether that distinction holds for judgement is genuinely open.",
+      "Last does not mean safe. It means the longest timer. The seats were always few. They may get fewer, or they may get stranger."
+    ]
+  },
+  {
+    range: [10, 22],
+    tag: "Archetype",
+    tagColor: "#5b8a78",
+    title: "The Research-Builder",
+    paragraphs: [
+      "You are Andrej Karpathy building nanoGPT on a weekend not to ship it but to understand it. The code is the microscope. You have deep knowledge in mathematics, biology, or a field where the questions are harder than the data. The insight and the craft are mostly one.",
+      "AI is exceptional at pattern recognition in high-dimensional spaces. That is precisely what research is. Domain complexity does not protect the field. It gets transformed. Your moat is not the code.",
+      "Your moat is whether your curiosity outruns the training data. The counterargument: AlphaFold generated novel protein structure predictions beyond what any human had mapped. AI can propose hypotheses now. True. But AlphaFold needed someone to first ask whether protein folding was a tractable computational problem. The question about what question to ask next is still yours. For now."
+    ]
+  },
+  {
+    range: [22, 36],
+    tag: "Archetype",
+    tagColor: "#6d897e",
+    title: "The Product-Minded Engineer",
+    paragraphs: [
+      "You are DHH extracting Rails from Basecamp, discovering what a framework should be by building the thing that needed one. You are Pieter Levels shipping Nomad List in a weekend because the spreadsheet stopped working. The code is the thinking. No spec, no handoff, no layer between the decision and the thing.",
+      "This lasts as long as you stay small. The org grows, they hire a PM, then a TPM, then someone to own the roadmap. Each hire moves you one step right. The fusion cracks under headcount. Most engineers at this position don't notice until they're already someone else.",
+      "Someone with no formal training and a good model can now do most of this. What they can't do yet is feel when something they're building will fall apart under load six months out. That sense comes from having built things that fell apart. The gap is real. Nobody knows how long it holds."
+    ]
+  },
+  {
+    range: [36, 52],
+    tag: "Archetype",
+    tagColor: "#887570",
+    title: "The Hybrid",
+    paragraphs: [
+      "You are the staff engineer who saw the product problem three quarters before the PM wrote the roadmap item. You felt it in the code. You have always been closer to the insight than your title suggests. You have just not made it the center of the work yet.",
+      "But taste only becomes a moat if you make it the center of the work. Your PM does alignment better. Your TPM runs coordination better. A high-agency person with a good model can ship the software. They are all competing for this seat now.",
+      "The engineering judgment you built from real systems is not nothing. The question is whether you surface it as product vision or keep waiting for it to be noticed through sprint ceremonies. Nobody is going to hand you that transition. The org does not know you want it."
+    ]
+  },
+  {
+    range: [52, 66],
+    tag: "Archetype",
+    tagColor: "#9b7262",
+    title: "The Domain Executor",
+    paragraphs: [
+      "You are the developer at a hedge fund implementing the strategy the quant researcher designed. Or the bioinformatics engineer building the pipeline the lab will run. The code is non-trivial. The domain vocabulary is real. The alpha, the hypothesis, the vision: those belong to someone else.",
+      "Domain knowledge in finance, biology, climate delays the countdown. The counterargument: implementation reveals things the researcher did not anticipate. You find the edge cases, the failure modes, the data quirks. That is real. But those findings feed back into someone else's vision. You are still a service provider, just a better-informed one. Adjacency to insight is not insight.",
+      "AI does not just threaten your implementation. It threatens the research layer above you simultaneously. The gap you thought protected you is closing from both sides at once."
+    ]
+  },
+  {
+    range: [66, 82],
+    tag: "Archetype",
+    tagColor: "#a27060",
+    title: "The Senior Bureaucrat",
+    paragraphs: [
+      "You are the Distinguished Engineer or VP of Engineering who has not written production code in four years, maybe five. You are in the room when the real decisions get made. You know which systems are held together with tape, which decisions were political, which reorg broke what. That knowledge took years to build. It gets you into rooms. It is not a craft.",
+      "The day is design reviews, architecture proposals that never get implemented, mentoring juniors who are not being hired anymore. You are the institutional memory. The problem with being the institutional memory is that the institution is changing faster than the memory compounds.",
+      "AI did not start this. The org started this long before. AI just makes it legible."
+    ]
+  },
+  {
+    range: [82, 100],
+    tag: "Archetype",
+    tagColor: "#a86950",
+    title: "The Cog",
+    paragraphs: [
+      "You are one of several hundred engineers at a company that passed the point where individual contribution is traceable. The ticket comes in. You estimate it, implement it, close it. Someone else wrote the ticket. This is intelligence work: the rules are complex but they are still rules. That is exactly what AI does well.",
+      "The org needed volume to move at scale. The craft was already gone by the time you got here. Nobody took it from you. It was not on offer.",
+      "This is not a judgment. It is what org scale does to craft. Now the volume is being automated. The distance to the other end of this spectrum is shorter than the job market makes it feel."
+    ]
+  }
+];
+
+const slider     = document.getElementById('axisSlider');
+const textBlock  = document.getElementById('textBlock');
+const posTag     = document.getElementById('posTag');
+const posTitle   = document.getElementById('posTitle');
+const posBody    = document.getElementById('posBody');
+const dragHint   = document.getElementById('dragHint');
+const lblLeft    = document.getElementById('lblLeft');
+const lblRight   = document.getElementById('lblRight');
+const zoneRow    = document.getElementById('zoneRow');
+const zonesBtn   = document.getElementById('zonesBtn');
+const scrollHint = document.getElementById('scrollHint');
+
+let currentZone      = -1;
+let hasInteracted    = false;
+let transitioning    = false;
+let pendingZone      = null;
+let settleTimer      = null;
+let userToggledZones = false;
+let zonesVisible     = false;
+
+function getZone(v) {
+  for (let i = 0; i < zones.length; i++) {
+    if (v >= zones[i].range[0] && v <= zones[i].range[1]) return i;
+  }
+  return zones.length - 1;
+}
+
+function lerp(a, b, t) { return a + (b - a) * t; }
+
+function thumbColor(t) {
+  return `rgb(${Math.round(lerp(74,168,t))},${Math.round(lerp(124,105,t))},${Math.round(lerp(107,80,t))})`;
+}
+
+function set(el, props) { Object.assign(el.style, props); }
+
+function transitionTo(zoneIdx, fast) {
+  if (transitioning) { pendingZone = zoneIdx; return; }
+
+  const outMs = fast ? 110 : 200;
+  const inMs  = fast ? 165 : 320;
+  const yPx   = fast ? 6   : 10;
+
+  transitioning = true;
+  currentZone   = zoneIdx;
+  const z       = zones[zoneIdx];
+
+  set(textBlock, {
+    transition: `opacity ${outMs}ms ease, transform ${outMs}ms ease`,
+    opacity: '0', transform: `translateY(${yPx}px)`
+  });
+
+  setTimeout(() => {
+    posTag.textContent   = z.tag;
+    posTag.style.color   = z.tagColor;
+    posTitle.textContent = z.title;
+    posBody.innerHTML    = z.paragraphs.map(p => `<p>${p}</p>`).join('');
+
+    set(textBlock, { transition: 'none', opacity: '0', transform: `translateY(-${yPx}px)` });
+
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      set(textBlock, {
+        transition: `opacity ${inMs}ms ease, transform ${inMs}ms ease`,
+        opacity: '1', transform: 'translateY(0)'
+      });
+      const done = () => {
+        transitioning = false;
+        if (pendingZone !== null && pendingZone !== currentZone) {
+          const pz = pendingZone;
+          pendingZone = null;
+          transitionTo(pz, true);
+        }
+      };
+      setTimeout(done, inMs + 20);
+    }));
+  }, outMs + 8);
+}
+
+function settleEffect() {
+  posTag.style.transition = 'color 0.14s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+  posTag.style.transform  = 'translateY(-3px)';
+  setTimeout(() => {
+    posTag.style.transition = 'color 0.14s ease, transform 0.3s ease';
+    posTag.style.transform  = 'translateY(0)';
+  }, 400);
+}
+
+function updateVisuals(v) {
+  const t = v / 100;
+  document.documentElement.style.setProperty('--thumb', thumbColor(t));
+  lblLeft.style.opacity  = lerp(1,    0.28, t);
+  lblRight.style.opacity = lerp(0.28, 1,    t);
+}
+
+slider.addEventListener('input', e => {
+  const v    = parseInt(e.target.value, 10);
+  const zone = getZone(v);
+
+  if (!hasInteracted) {
+    hasInteracted = true;
+    dragHint.classList.remove('idle');
+  }
+  dragHint.textContent = zones[zone].title;
+  dragHint.style.color = zones[zone].tagColor;
+
+  clearTimeout(settleTimer);
+  updateVisuals(v);
+  if (zone !== currentZone) transitionTo(zone, true);
+
+  settleTimer = setTimeout(settleEffect, 380);
+});
+
+/* ── zones toggle ── */
+function setZones(show) {
+  zonesVisible          = show;
+  zoneRow.style.opacity = show ? '1' : '0';
+  zonesBtn.classList.toggle('active', show);
+  zonesBtn.textContent  = show ? 'hide archetypes' : 'archetypes';
+}
+
+zonesBtn.addEventListener('click', () => {
+  userToggledZones = true;
+  setZones(!zonesVisible);
+});
+
+/* ── wordcel/shape rotator toggle ── */
+const wvBtn  = document.getElementById('wvBtn');
+const wvBody = document.getElementById('wvBody');
+wvBtn.addEventListener('click', () => {
+  const open = wvBody.classList.toggle('open');
+  wvBtn.classList.toggle('active', open);
+});
+
+/* ── scroll hint ── */
+function checkScrollHint() {
+  if (document.documentElement.scrollHeight > window.innerHeight + 60)
+    scrollHint.classList.add('visible');
+}
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 30) scrollHint.classList.replace('visible', 'gone');
+}, { passive: true });
+
+/* ── init ── */
+updateVisuals(50);
+dragHint.classList.add('idle');
+setTimeout(checkScrollHint, 1200);
+
+setTimeout(() => {
+  if (!userToggledZones) {
+    setZones(true);
+    zonesBtn.style.color = 'var(--ink)';
+    setTimeout(() => { zonesBtn.style.color = ''; }, 900);
+  }
+}, 1700);
+
+setTimeout(() => {
+  if (!userToggledZones) setZones(false);
+}, 5000);
+</script>
+</body>
+</html>
